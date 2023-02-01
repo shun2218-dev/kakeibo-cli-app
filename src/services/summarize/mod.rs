@@ -60,3 +60,54 @@ fn print_table(result_table: BTreeMap<NaiveDate, i32>) {
         println!("{}の収支は{}円でした", date, price);
     }
 }
+
+#[cfg(test)]
+mod summarize_test {
+    use super::*;
+
+    fn get_test_data() -> Vec<models::Item> {
+        vec![
+            super::models::Item::new(
+                "新年会".to_string(),
+                models::Category::Expense(models::ExpenseCategory::Food),
+                5000,
+                NaiveDate::from_ymd_opt(2023, 1, 10).unwrap(),
+            ),
+            super::models::Item::new(
+                "給料".to_string(),
+                models::Category::Income(models::IncomeCategory::Salary),
+                300000,
+                NaiveDate::from_ymd_opt(2023, 1, 20).unwrap(),
+            ),
+            super::models::Item::new(
+                "旅行".to_string(),
+                models::Category::Expense(models::ExpenseCategory::Hobby),
+                100000,
+                NaiveDate::from_ymd_opt(2023, 1, 30).unwrap(),
+            ),
+            super::models::Item::new(
+                "外食".to_string(),
+                models::Category::Expense(models::ExpenseCategory::Food),
+                3000,
+                NaiveDate::from_ymd_opt(2023, 2, 15).unwrap(),
+            ),
+            super::models::Item::new(
+                "歓迎会".to_string(),
+                models::Category::Expense(models::ExpenseCategory::Food),
+                10000,
+                NaiveDate::from_ymd_opt(2023, 4, 15).unwrap(),
+            ),
+        ]
+    }
+
+    #[test]
+    fn test_get_target_dates() {
+        let test_data = get_test_data();
+        let mut expected = BTreeSet::new();
+        expected.insert(NaiveDate::from_ymd_opt(2023, 1, 1).unwrap());
+        expected.insert(NaiveDate::from_ymd_opt(2023, 2, 1).unwrap());
+        expected.insert(NaiveDate::from_ymd_opt(2023, 4, 1).unwrap());
+
+        assert_eq!(get_target_dates(&test_data), expected);
+    }
+}
