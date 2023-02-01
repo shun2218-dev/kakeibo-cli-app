@@ -14,5 +14,21 @@
     },
     "price": 1500,
     "date": "2022-05-30"
+  },
+  {
+    "name": "5月給料",
+    "category": {
+      "Income": "Salary"
+    },
+    "price": 350000,
+    "date": "2022-06-15"
+  },
+  {
+    "name": "外食",
+    "category": {
+      "Expense": "Food"
+    },
+    "price": 2000,
+    "date": "2022-06-30"
   }
 ]
